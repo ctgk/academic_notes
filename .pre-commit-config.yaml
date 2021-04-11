@@ -1,0 +1,30 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.4.0
+    hooks:
+    -   id: trailing-whitespace
+        exclude: .ipynb
+    -   id: end-of-file-fixer
+        exclude: .ipynb
+    -   id: check-yaml
+    -   id: check-ast
+    -   id: check-added-large-files
+        exclude: .ipynb
+    -   id: mixed-line-ending
+        args: ['--fix', 'lf']
+    -   id: no-commit-to-branch
+        args: ['--branch', 'main']
+-   repo: local
+    hooks:
+    -   id: assert_ascii
+        language: system
+        name: Check file encoding
+        entry: bash -c 'for file in "$@"; do file -i $file | grep -q "ascii\|binary" || (echo $file && exit 1); done' --
+        types: [text]
+    -   id: documentation
+        name: Generate document
+        language: system
+        entry: bash -c 'mkdocs build -s'
+        pass_filenames: false
