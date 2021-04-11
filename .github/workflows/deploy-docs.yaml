@@ -1,7 +1,4 @@
-# This workflow will install Python dependencies, run full checks defined in `.pre-commit-config.yaml` with a variety of Python versions
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
-
-name: Python package
+name: Deploy document to Github Pages
 
 on:
   push:
@@ -25,4 +22,7 @@ jobs:
     - name: Install dependencies
       run: pip install -r requirements.txt
     - name: Run checks
-      run: pre-commit run -a
+      run: SKIP=no-commit-to-branch pre-commit run -a
+    - name: deploy
+      if: ${{ github.ref == 'refs/heads/main' }}
+      run: mkdocs gh-deploy
