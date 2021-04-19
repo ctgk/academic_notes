@@ -25,4 +25,4 @@ jobs:
       run: SKIP=no-commit-to-branch pre-commit run -a
     - name: deploy
       if: ${{ github.ref == 'refs/heads/main' }}
-      run: mkdocs gh-deploy
+      run: mkdocs gh-deploy --force
